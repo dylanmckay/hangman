@@ -90,19 +90,16 @@ end
 
 class HangmanView
   def prompt_letter
-    letter = nil
-
-    # wait for valid input
-    until letter
+    loop do
       print("Enter a letter: ")
       letter = gets.chomp
 
-      if letter.length != 1
+      if letter.length == 1
+        return letter
+      else
         puts("Please enter a single character")
-        letter = nil
       end
     end
-    letter
   end
 
   def show_guess_count(count)
