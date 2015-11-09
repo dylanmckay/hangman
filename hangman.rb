@@ -11,10 +11,6 @@ class HangmanModel
     @remaining_turns = GUESS_COUNT
   end
 
-  def word_guessed?
-    @correct_letters.length == @word.chars.uniq.length
-  end
-
   def contain_letter?(letter)
     @word.chars.include?(letter)
   end
@@ -32,7 +28,16 @@ class HangmanModel
     @remaining_turns > 0
   end
 
+  def in_progress?
+    remaining_turns? || won?
+  end
+
+  def won?
+    @correct_letters.length == @word.chars.uniq.length
+  end
+
   def decrement_remaining_turns
+    fail if @remaining_turns <= 0
     @remaining_turns -= 1
   end
 
@@ -52,18 +57,14 @@ class HangmanController
   def play
     @view.show_guess_count(@model.remaining_turns)
 
-    while @model.remaining_turns?
-      play_turn
+    play_turn while @model.in_progress?
 
-      if @model.word_guessed?
-        @view.show_win_message(@model.word)
-        return
-      end
-
-      @model.decrement_remaining_turns
+    if @model.won?
+      @view.show_win_message(@model.word)
+    else
+      @view.show_lose_message(@model.word)
     end
 
-    @view.show_lose_message(@model.word)
   end
 
   def play_turn
@@ -76,6 +77,8 @@ class HangmanController
     else
       process_letter(letter)
     end
+
+    @model.decrement_remaining_turns
   end
 
   def process_letter(letter)
