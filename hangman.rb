@@ -29,7 +29,7 @@ class HangmanModel
   end
 
   def in_progress?
-    remaining_turns? || won?
+    remaining_turns? && !won?
   end
 
   def won?
@@ -127,9 +127,11 @@ class HangmanView
   end
 end
 
-word = File.read("words.txt").split("\n").sample()
-model = HangmanModel.new(word)
-view = HangmanView.new()
-controller = HangmanController.new(model, view)
+if __FILE__ == $0
+  word = File.read("words.txt").split("\n").sample()
+  model = HangmanModel.new(word)
+  view = HangmanView.new()
+  controller = HangmanController.new(model, view)
 
-controller.play
+  controller.play
+end
