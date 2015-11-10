@@ -15,9 +15,13 @@ class HangmanModel
     @word.chars.include?(letter)
   end
 
-  def give_correct_letter(letter)
-    fail if !contain_letter?(letter)
-    @correct_letters<< letter
+  def try_give_letter(letter)
+    if contain_letter?(letter)
+      @correct_letters << letter
+      true
+    else
+      false
+    end
   end
 
   def already_guessed?(letter)
@@ -49,6 +53,7 @@ class HangmanModel
 end
 
 class HangmanController
+
   def initialize(model, view)
     @model = model
     @view = view
@@ -77,14 +82,12 @@ class HangmanController
     else
       process_letter(letter)
     end
-
-    @model.decrement_remaining_turns
   end
 
   def process_letter(letter)
-    if @model.contain_letter?(letter)
-      @model.give_correct_letter(letter)
-    end
+
+    success = @model.try_give_letter(letter)
+    @model.decrement_remaining_turns if !success
   end
 end
 
