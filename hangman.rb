@@ -40,7 +40,7 @@ class HangmanModel
     @correct_letters.length == @word.chars.uniq.length
   end
 
-  def decrement_remaining_turns
+  def take_life
     fail if @remaining_turns <= 0
     @remaining_turns -= 1
   end
@@ -87,7 +87,7 @@ class HangmanController
   def process_letter(letter)
 
     success = @model.try_give_letter(letter)
-    @model.decrement_remaining_turns if !success
+    @model.take_life if !success
   end
 end
 
