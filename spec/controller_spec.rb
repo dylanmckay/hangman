@@ -1,15 +1,17 @@
 
 require_relative "../hangman.rb"
 
+TEST_WORD = "hello"
+
 describe HangmanController do
+
+  let(:model) { HangmanModel.new(TEST_WORD) }
+  let(:view) { instance_double(HangmanView) }
+  let(:controller) { HangmanController.new(model, view) }
 
   describe "#play" do
 
     it "shows the word status and prompts for a letter" do
-      model = HangmanModel.new("hello")
-      view = instance_double(HangmanView)
-      controller = HangmanController.new(model,view)
-
       expect(view).to receive(:show_word_status)
       expect(view).to receive(:prompt_letter)
 
@@ -17,10 +19,6 @@ describe HangmanController do
     end
 
     it "shows a message when you lose" do
-      model = HangmanModel.new("hello")
-      view = instance_double(HangmanView)
-      controller = HangmanController.new(model, view)
-
       expect(view).to receive(:show_guess_count)
       expect(view).to receive(:show_word_status).at_least(:once)
       expect(view).to receive(:prompt_letter).at_least(:once)
@@ -30,12 +28,6 @@ describe HangmanController do
     end
 
     it "shows a message when you win" do
-      TEST_WORD = "hello"
-
-      model = HangmanModel.new(TEST_WORD)
-      view = instance_double(HangmanView)
-      controller = HangmanController.new(model, view)
-
       TEST_WORD.chars.uniq.each do |c|
         expect(view).to receive(:show_word_status)
         expect(view).to receive(:prompt_letter).and_return(c)
@@ -47,18 +39,6 @@ describe HangmanController do
     end
 
     it "decrements the remaining lives when a guess was incorrect" do
-      model = HangmanModel.new("hello")
-      view = instance_double(HangmanView)
-      controller = HangmanController.new(model, view)
-
-      "hello".chars.uniq.each do |c|
-        expect(view).to receive(:show_word_status)
-        expect(view).to receive(:prompt_letter).and_return("#{c}")
-
-        controller.play_turn
-        expect(model.remaining_turns).to eq 8
-      end
-
       8.times do |n|
         expect(view).to receive(:show_word_status)
         expect(view).to receive(:prompt_letter).and_return("a\n")
@@ -67,5 +47,16 @@ describe HangmanController do
         controller.play_turn
       end
     end
+
+    it "doesn't decrement lives when a guess was correct" do
+      TEST_WORD.chars.uniq.each do |c|
+        expect(view).to receive(:show_word_status)
+        expect(view).to receive(:prompt_letter).and_return("#{c}")
+
+        controller.play_turn
+        expect(model.remaining_turns).to eq 8
+      end
+    end
+
   end
 end
