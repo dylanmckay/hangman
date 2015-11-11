@@ -1,4 +1,3 @@
-#! /usr/bin/ruby
 
 require_relative "model.rb"
 require_relative "view.rb"
@@ -45,12 +44,3 @@ class HangmanController
   end
 end
 
-
-if __FILE__ == $0
-  word = File.read("words.txt").split("\n").sample()
-  model = HangmanModel.new(word)
-  view = HangmanView.new()
-  controller = HangmanController.new(model, view)
-
-  controller.play
-end
