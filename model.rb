@@ -19,11 +19,7 @@ class HangmanModel
       @guessed_letters << letter
     end
 
-    if contain_letter?(letter)
-      true
-    else
-      false
-    end
+    contain_letter?(letter)
   end
 
   def already_guessed?(letter)
