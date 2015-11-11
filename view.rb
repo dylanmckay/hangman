@@ -18,7 +18,7 @@ class HangmanView
   end
 
   def show_win_message(word)
-      puts("You won! The word was '#{word}'")
+    puts("You won! The word was '#{word}'")
   end
 
   def show_lose_message(word)
@@ -30,7 +30,7 @@ class HangmanView
   end
 
   def show_already_guessed_message(letter)
-      puts("You have already correctly guessed '#{letter}'")
+    puts("You have already correctly guessed '#{letter}'")
   end
 
   def current_word_status_str(chars)

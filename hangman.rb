@@ -35,7 +35,6 @@ class HangmanController
   end
 
   def process_letter(letter)
-
     success = @model.try_give_letter(letter)
     @model.take_life if !success
   end
