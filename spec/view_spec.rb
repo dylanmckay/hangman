@@ -16,15 +16,17 @@ describe HangmanView do
   end
 
   describe "#show_word_status" do
-    it "correctly prints the status string" do
-      expect(view).to receive(:puts).with(match(/_a_b/))
-      view.show_word_status([nil,'a',nil,'b'])
-      
-      expect(view).to receive(:puts).with(match(/____/))
-      view.show_word_status([nil,nil,nil,nil])
+    context "when a completely unknown word" do
+      it "correctly prints the status string" do
+        expect(view).to receive(:puts).with(match(/_a_b/))
+        view.show_word_status([nil,'a',nil,'b'])
+        
+        expect(view).to receive(:puts).with(match(/____/))
+        view.show_word_status([nil,nil,nil,nil])
 
-      expect(view).to receive(:puts).with(match(/abcd/))
-      view.show_word_status("abcd".chars)
+        expect(view).to receive(:puts).with(match(/abcd/))
+        view.show_word_status("abcd".chars)
+      end
     end
   end
 end

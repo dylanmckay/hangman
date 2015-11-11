@@ -1,11 +1,13 @@
 
+GUESS_COUNT = 8
+
 class HangmanModel
   attr_reader :word, :remaining_turns
 
-  def initialize(word)
+  def initialize(word, guess_count=GUESS_COUNT)
     @word = word
     @correct_letters = []
-    @remaining_turns = GUESS_COUNT
+    @remaining_turns = guess_count
   end
 
   def contain_letter?(letter)

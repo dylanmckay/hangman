@@ -1,11 +1,9 @@
 
 require_relative "../hangman.rb"
 
-TEST_WORD = "hello"
-
 describe HangmanController do
-
-  let(:model) { HangmanModel.new(TEST_WORD) }
+  let(:test_word) { "hello" }
+  let(:model) { HangmanModel.new(test_word) }
   let(:view) { instance_double(HangmanView) }
   let(:controller) { HangmanController.new(model, view) }
 
@@ -21,7 +19,7 @@ describe HangmanController do
     end
 
     it "shows a message when you win" do
-      TEST_WORD.chars.uniq.each do |c|
+      test_word.chars.uniq.each do |c|
         expect(view).to receive(:show_word_status)
         expect(view).to receive(:prompt_letter).and_return(c)
       end
@@ -52,7 +50,7 @@ describe HangmanController do
     end
 
     it "doesn't decrement lives when a guess was correct" do
-      TEST_WORD.chars.uniq.each do |c|
+      test_word.chars.uniq.each do |c|
         expect(view).to receive(:show_word_status)
         expect(view).to receive(:prompt_letter).and_return(c)
 

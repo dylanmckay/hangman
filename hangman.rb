@@ -2,9 +2,6 @@
 require_relative "model.rb"
 require_relative "view.rb"
 
-GUESS_COUNT = 8
-
-
 class HangmanController
 
   def initialize(model, view)
