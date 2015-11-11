@@ -54,7 +54,7 @@ describe HangmanController do
     it "doesn't decrement lives when a guess was correct" do
       TEST_WORD.chars.uniq.each do |c|
         expect(view).to receive(:show_word_status)
-        expect(view).to receive(:prompt_letter).and_return("#{c}")
+        expect(view).to receive(:prompt_letter).and_return(c)
 
         controller.play_turn
         expect(model.remaining_turns).to eq 8
