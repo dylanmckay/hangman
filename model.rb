@@ -6,7 +6,7 @@ class HangmanModel
 
   def initialize(word, guess_count=GUESS_COUNT)
     @word = word
-    @correct_letters = []
+    @guessed_letters = []
     @remaining_turns = guess_count
   end
 
@@ -15,8 +15,11 @@ class HangmanModel
   end
 
   def try_give_letter(letter)
+    if !already_guessed?(letter)
+      @guessed_letters << letter
+    end
+
     if contain_letter?(letter)
-      @correct_letters << letter
       true
     else
       false
@@ -24,7 +27,7 @@ class HangmanModel
   end
 
   def already_guessed?(letter)
-    @correct_letters.include?(letter)
+    @guessed_letters.include?(letter)
   end
 
   def remaining_turns?
@@ -35,8 +38,12 @@ class HangmanModel
     remaining_turns? && !won?
   end
 
+  def correctly_guessed_letters
+    @guessed_letters.select { |c| contain_letter?(c) }
+  end
+
   def won?
-    @correct_letters.length == @word.chars.uniq.length
+    correctly_guessed_letters.length == @word.chars.uniq.length
   end
 
   def take_life
@@ -47,7 +54,7 @@ class HangmanModel
   # gets a the word as a character array, with unguessed letters
   # being represented by 'nil'.
   def status_chars
-    @word.chars.map { |c| @correct_letters.include?(c) ? c : nil }
+    @word.chars.map { |c| @guessed_letters.include?(c) ? c : nil }
   end
 end
 
