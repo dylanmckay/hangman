@@ -11,13 +11,6 @@ describe HangmanController do
 
   describe "#play" do
 
-    it "shows the word status and prompts for a letter" do
-      expect(view).to receive(:show_word_status)
-      expect(view).to receive(:prompt_letter)
-
-      controller.play_turn
-    end
-
     it "shows a message when you lose" do
       expect(view).to receive(:show_guess_count)
       expect(view).to receive(:show_word_status).at_least(:once)
@@ -36,6 +29,16 @@ describe HangmanController do
       expect(view).to receive(:show_guess_count)
       expect(view).to receive(:show_win_message)
       controller.play
+    end
+  end
+
+  describe "#play_turn" do
+
+    it "shows the word status and prompts for a letter" do
+      expect(view).to receive(:show_word_status)
+      expect(view).to receive(:prompt_letter)
+
+      controller.play_turn
     end
 
     it "decrements the remaining lives when a guess was incorrect" do
